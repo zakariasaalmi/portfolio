@@ -1,519 +1,130 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="dark">
-<title>Zakaria — Développeur Web & Mobile</title>
-<meta name="description" content="Zakaria — développeur freelance basé en France. Sites web et applications mobiles Flutter, en français et en arabe.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-  :root{
-    --ink:#0B2B29;
-    --ink-2:#123B37;
-    --ink-3:#17493F;
-    --parchment:#F3EAD8;
-    --parchment-dim:rgba(243,234,216,.68);
-    --gold:#C9A24B;
-    --gold-bright:#E4C176;
-    --mist:#7FB3AC;
-    --line:rgba(243,234,216,.14);
-    --radius:14px;
-  }
-  *,*::before,*::after{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
-  }
-  body{
-    margin:0;
-    background:var(--ink);
-    color:var(--parchment);
-    font-family:'IBM Plex Sans',sans-serif;
-    font-size:16px;
-    line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-  }
-  body.lang-ar{font-family:'IBM Plex Sans Arabic',sans-serif;}
-  h1,h2,.display{font-family:'Bricolage Grotesque',sans-serif;margin:0;font-weight:700;}
-  body.lang-ar h1,body.lang-ar h2,body.lang-ar .display{font-family:'Reem Kufi',sans-serif;font-weight:600;}
-  p{margin:0;}
-  a{color:inherit;}
-  img,svg{display:block;max-width:100%;}
-  .container{max-width:1120px;margin:0 auto;padding-inline:clamp(1.25rem,5vw,3rem);}
-  .eyebrow{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.75rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--mist);
-  }
-  body.lang-ar .eyebrow{letter-spacing:0;text-transform:none;font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:600;}
-  .btn{
-    display:inline-flex;align-items:center;gap:.5rem;
-    padding:.85rem 1.6rem;
-    border-radius:999px;
-    font-size:.95rem;font-weight:600;
-    text-decoration:none;
-    border:1px solid transparent;
-    cursor:pointer;
-    transition:transform .25s ease, background .25s ease, border-color .25s ease;
-  }
-  .btn:focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
-  .btn-primary{background:var(--gold);color:var(--ink);}
-  .btn-primary:hover{background:var(--gold-bright);transform:translateY(-2px);}
-  .btn-ghost{border-color:var(--line);color:var(--parchment);}
-  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-bright);transform:translateY(-2px);}
-
-  /* geometric trellis divider — quiet recurring motif */
-  .trellis{
-    height:16px;
-    opacity:.4;
-    background-image:
-      repeating-linear-gradient(45deg, var(--gold) 0 1px, transparent 1px 12px),
-      repeating-linear-gradient(-45deg, var(--gold) 0 1px, transparent 1px 12px);
-  }
-
-  /* header */
-  header{
-    position:sticky;top:0;z-index:50;
-    background:rgba(11,43,41,.86);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav{display:flex;align-items:center;justify-content:space-between;padding-block:1.1rem;gap:1rem;}
-  .wordmark{font-family:'Bricolage Grotesque',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:.01em;}
-  body.lang-ar .wordmark{font-family:'Reem Kufi',sans-serif;}
-  .nav-links{display:flex;align-items:center;gap:2rem;font-size:.92rem;color:var(--parchment-dim);}
-  .nav-links a{text-decoration:none;transition:color .2s ease;}
-  .nav-links a:hover{color:var(--gold-bright);}
-  @media (max-width:760px){.nav-links{display:none;}}
-  .nav-right{display:flex;align-items:center;gap:1rem;}
-
-  .lang-switch{
-    position:relative;display:inline-flex;
-    border:1px solid var(--line);border-radius:999px;
-    padding:3px;font-family:'IBM Plex Mono',monospace;font-size:.78rem;
-  }
-  .lang-switch .lang-thumb{
-    position:absolute;top:3px;bottom:3px;left:3px;
-    width:calc(50% - 3px);
-    background:var(--gold);border-radius:999px;
-    transition:transform .3s ease;
-    z-index:0;
-  }
-  .lang-switch.is-ar .lang-thumb{transform:translateX(100%);}
-  .lang-btn{
-    position:relative;z-index:1;
-    border:none;background:transparent;color:var(--parchment-dim);
-    padding:.4rem .85rem;border-radius:999px;cursor:pointer;
-    font-family:inherit;font-size:inherit;line-height:1;
-  }
-  .lang-btn[aria-pressed="true"]{color:var(--ink);font-weight:600;}
-  .lang-btn:focus-visible{outline:2px solid var(--gold-bright);outline-offset:2px;}
-
-  /* hero */
-  .hero{position:relative;padding-block:clamp(4rem,10vw,7rem) clamp(3rem,7vw,5rem);overflow:hidden;}
-  .hero::before{
-    content:"";position:absolute;inset:0;z-index:0;
-    background-image:
-      repeating-linear-gradient(45deg, var(--gold) 0 1px, transparent 1px 34px),
-      repeating-linear-gradient(-45deg, var(--gold) 0 1px, transparent 1px 34px);
-    opacity:.05;
-    mask-image:radial-gradient(ellipse at top, black, transparent 75%);
-  }
-  .hero-inner{position:relative;z-index:1;max-width:780px;}
-  .hero h1{font-size:clamp(2.3rem,6vw,4rem);line-height:1.1;margin-block:1rem 1.25rem;letter-spacing:-.01em;}
-  body.lang-ar .hero h1{line-height:1.35;}
-  .hero-sub{font-size:clamp(1.02rem,2vw,1.2rem);color:var(--parchment-dim);max-width:56ch;margin-bottom:2.25rem;}
-  .hero-ctas{display:flex;flex-wrap:wrap;gap:1rem;}
-
-  section{padding-block:clamp(3.5rem,8vw,6rem);}
-  .section-head{max-width:640px;margin-bottom:2.75rem;}
-  .section-head h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin-top:.6rem;line-height:1.2;}
-
-  /* about */
-  .about-body{font-size:1.08rem;color:var(--parchment-dim);max-width:66ch;}
-
-  /* skills */
-  .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-  @media (max-width:820px){.skills-grid{grid-template-columns:1fr;}}
-  .skill-card{
-    background:var(--ink-2);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:1.8rem;
-  }
-  .skill-icon{color:var(--gold);margin-bottom:1.1rem;}
-  .skill-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;margin-bottom:.6rem;font-weight:600;}
-  body.lang-ar .skill-card h3{font-family:'Reem Kufi',sans-serif;}
-  .skill-card p{color:var(--parchment-dim);font-size:.96rem;}
-
-  /* projects */
-  .project-card{
-    background:var(--ink-2);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:clamp(1.8rem,4vw,3rem);
-    display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem;align-items:center;
-  }
-  @media (max-width:780px){.project-card{grid-template-columns:1fr;}}
-  .project-card h3{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:1rem;}
-  .project-card p{color:var(--parchment-dim);font-size:1rem;}
-  .chip-cloud{display:flex;flex-wrap:wrap;gap:.6rem;align-content:flex-start;}
-  .chip{
-    font-family:'IBM Plex Mono',monospace;font-size:.78rem;
-    border:1px solid var(--gold);color:var(--gold-bright);
-    padding:.5rem .9rem;border-radius:999px;
-    background:rgba(201,162,75,.08);
-  }
-  body.lang-ar .chip{font-family:'IBM Plex Sans Arabic',sans-serif;}
-
-  /* contact */
-  .contact-box{
-    background:var(--ink-2);border:1px solid var(--line);border-radius:24px;
-    padding:clamp(2rem,6vw,4rem);text-align:center;
-  }
-  .contact-box h2{font-size:clamp(1.9rem,4vw,2.8rem);}
-  .contact-sub{color:var(--parchment-dim);margin-block:1rem 2rem;font-size:1.05rem;}
-  .contact-form{
-    display:flex;flex-direction:column;gap:1.15rem;
-    text-align:start;max-width:520px;margin:0 auto;
-  }
-  .form-row{display:flex;flex-direction:column;gap:.4rem;}
-  .form-row label{
-    font-size:.8rem;color:var(--parchment-dim);
-    font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;
-  }
-  body.lang-ar .form-row label{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0;text-transform:none;font-weight:600;}
-  .form-row input,.form-row textarea{
-    background:var(--ink);border:1px solid var(--line);border-radius:10px;
-    padding:.8rem .95rem;color:var(--parchment);font-family:inherit;font-size:.98rem;
-  }
-  .form-row textarea{resize:vertical;}
-  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--gold);}
-  .contact-form .btn{align-self:flex-start;margin-top:.25rem;}
-  .form-note{font-size:.8rem;color:var(--parchment-dim);margin-top:.25rem;}
-  .form-status{font-size:.9rem;margin-top:.25rem;min-height:1.2em;}
-  .form-status.is-success{color:var(--gold-bright);}
-  .form-status.is-error{color:#E2725B;}
-  .direct-mail{
-    display:inline-block;margin-top:1.5rem;font-size:.88rem;color:var(--mist);
-    text-decoration:underline;text-underline-offset:3px;
-  }
-  .direct-mail:hover{color:var(--gold-bright);}
-
-  footer{border-top:1px solid var(--line);padding-block:2rem;}
-  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;font-size:.85rem;color:var(--parchment-dim);}
-
-  /* scroll reveal */
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
-  .reveal.is-visible{opacity:1;transform:translateY(0);}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Zakaria — Premium Web & Mobile Portfolio</title>
+  <meta name="description" content="Zakaria is a freelance web and mobile developer in France crafting premium websites, mobile apps, and multilingual digital experiences.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
-<header>
-  <div class="container nav">
-    <span class="wordmark" data-i18n-name>Zakaria</span>
-    <nav class="nav-links">
-      <a href="#about" data-i18n="navAbout">À propos</a>
-      <a href="#skills" data-i18n="navServices">Services</a>
-      <a href="#projects" data-i18n="navProjects">Projets</a>
+  <header class="site-header">
+    <a class="brand magnetic" href="#top" aria-label="Zakaria home"><span>✦</span>Zakaria</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
     </nav>
-    
-  </div>
-</header>
+    <a class="header-cta magnetic" href="#contact">Discuss project</a>
+  </header>
 
-<section class="hero">
-  <div class="container hero-inner">
-    <p class="eyebrow" data-i18n="heroEyebrow">Développeur freelance — web & mobile</p>
-    <h1 data-i18n="heroTitle">Votre site. Votre application.<br></h1>
-    <p class="hero-sub" data-i18n="heroSub">Je conçois des sites web et des applications mobiles sur mesure, du cahier des charges à la mise en ligne.</p>
-    <div class="hero-ctas">
-      <a href="#contact" class="btn btn-primary" data-i18n="heroCtaPrimary">Discutons de votre projet</a>
-      <a href="#projects" class="btn btn-ghost" data-i18n="heroCtaSecondary">Voir mes réalisations</a>
-    </div>
-  </div>
-</section>
-
-<div class="trellis"></div>
-
-
-
-<section id="skills">
-  <div class="container section-head reveal">
-    <p class="eyebrow" data-i18n="skillsEyebrow">Ce que je fais</p>
-    <h2 data-i18n="skillsHeading">Des sites web et des applications</h2>
-  </div>
-  <div class="container skills-grid">
-    <div class="skill-card reveal">
-      <svg class="skill-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="3" y1="9.5" x2="21" y2="9.5"/><circle cx="6.2" cy="7.2" r=".4" fill="currentColor"/><circle cx="8" cy="7.2" r=".4" fill="currentColor"/></svg>
-      <h3 data-i18n="skill1Title">Sites Web</h3>
-      <p data-i18n="skill1Body">Sites vitrines, sites e-commerce et applications web sur mesure, pensés pour convertir vos visiteurs en clients.</p>
-    </div>
-    <div class="skill-card reveal">
-      <svg class="skill-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.2"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
-      <h3 data-i18n="skill2Title">Applications Mobiles</h3>
-      <p data-i18n="skill2Body">Applications multiplateformes, pour iOS et Android, d'une idée jusqu'à la mise en ligne sur les stores.</p>
-    </div>
-    <div class="skill-card reveal">
-      <svg class="skill-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
-      <h3 data-i18n="skill3Title">Interfaces Multilingues</h3>
-      <p data-i18n="skill3Body">Sites et applications bilingues ou trilingues.</p>
-    </div>
-  </div>
-</section>
-
-<div class="trellis"></div>
-
-<section id="projects">
-  <div class="container section-head reveal">
-    <p class="eyebrow" data-i18n="projectsEyebrow">Projet phare</p>
-    <h2 data-i18n="projectsHeading">Salmi School</h2>
-  </div>
-  <div class="container">
-    <div class="project-card reveal">
-      <div>
-        <p data-i18n="projectBody">Une application mobile complète pour lycéens.</p>
-      </div>
-      <div class="chip-cloud">
-        <span class="chip">school</span>
-        <span class="chip" data-i18n="chip2">AR · FR · EN</span>
-        <span class="chip" data-i18n="chip3">JAVA</span>
-        <span class="chip" data-i18n="chip4">Mobile app</span>
-        <span class="chip" data-i18n="chip5">IOS & Android</span>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="projects">
-  <div class="container section-head reveal">
-   
-    <h2 data-i18n="projectsHeading">sites web </h2>
-  </div>
-  <div class="container">
-    <div class="project-card reveal">
-      <div>
-        <p data-i18n="projectBody">des sites web pour des restaurantes , salon de coiffures et des entreprises. </p>
-      </div>
-      <div class="chip-cloud">
-        <span class="chip" data-i18n="chip5">rechercher</span>
-        <span class="chip" data-i18n="chip5">clients</span>
-        <span class="chip" data-i18n="chip3">HTML/ CSS/ JS</span>
-        <span class="chip" data-i18n="chip4">Chrome </span>
-        <span class="chip" data-i18n="chip5">site web</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="container">
-    <div class="contact-box reveal">
-      <p class="eyebrow" data-i18n="contactEyebrow">Contact</p>
-      <h2 data-i18n="contactHeading">Un projet en tête ?</h2>
-      <p class="contact-sub" data-i18n="contactSub">Parlez-moi de votre site ou de votre application.</p>
-
-      <form id="contactForm" class="contact-form" action="https://formspree.io/f/meeyvejn" method="POST" novalidate>
-        <div class="form-row">
-          <label for="cf-name" data-i18n="formName">Votre nom</label>
-          <input type="text" id="cf-name" name="name" required>
+  <main id="top">
+    <section class="hero section-dark" data-section="PORTFOLIO">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Freelance Developer</p>
+        <h1><span>Crafting</span><span>Websites &</span><span>Apps.</span></h1>
+        <p class="hero-text">I design and develop high-end websites and mobile applications that help businesses grow online.</p>
+        <div class="hero-actions">
+          <a class="button button-primary magnetic" href="#contact">Discuss your project</a>
+          <a class="button button-ghost magnetic" href="#projects">View Portfolio</a>
         </div>
-        <div class="form-row">
-          <label for="cf-email" data-i18n="formEmail">Votre e-mail</label>
-          <input type="email" id="cf-email" name="email" required>
+      </div>
+      <div class="hero-visual reveal parallax" data-speed="0.18">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="mockup-card image-zoom">
+          <div class="mockup-top"><span></span><span></span><span></span></div>
+          <div class="mockup-screen">
+            <p>Zakaria</p>
+            <strong>Digital product<br>studio</strong>
+            <small>France · Web · Mobile</small>
+          </div>
         </div>
-        <div class="form-row">
-          <label for="cf-message" data-i18n="formMessage">Votre message</label>
-          <textarea id="cf-message" name="message" rows="5" required></textarea>
+        <ul class="tech-cloud" aria-label="Technologies">
+          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>Android</li><li>React</li><li>PHP</li>
+        </ul>
+      </div>
+      <a class="scroll-cue" href="#services" aria-label="Scroll to services">Scroll<br>down</a>
+    </section>
+
+    <section class="services section-dark" id="services" data-section="DEVELOPER">
+      <div class="section-heading reveal">
+        <p class="eyebrow">What I do</p>
+        <h2>Premium digital services for ambitious brands.</h2>
+      </div>
+      <div class="service-grid">
+        <article class="service-card reveal"><span>01</span><h3>Custom Websites</h3><p>Elegant, responsive websites designed around your message, audience, and conversion goals.</p></article>
+        <article class="service-card reveal"><span>02</span><h3>Mobile Apps</h3><p>Clean mobile application experiences for Android and cross-platform product ideas.</p></article>
+        <article class="service-card reveal"><span>03</span><h3>UI/UX Design</h3><p>Interface systems, landing pages, and polished flows that feel effortless to use.</p></article>
+        <article class="service-card reveal"><span>04</span><h3>Business Websites</h3><p>Restaurant, barber, company, and multilingual websites with strong local presence.</p></article>
+        <article class="service-card reveal"><span>05</span><h3>SEO & Performance</h3><p>Fast, accessible builds with semantic structure and search-friendly foundations.</p></article>
+        <article class="service-card reveal"><span>06</span><h3>Maintenance</h3><p>Reliable updates, refinements, and technical support after launch.</p></article>
+      </div>
+    </section>
+
+    <section class="featured section-cream" id="projects" data-section="WORK">
+      <div class="section-heading reveal">
+        <p class="eyebrow dark">Featured Project</p>
+        <h2>Salmi School</h2>
+      </div>
+      <article class="featured-card reveal image-zoom">
+        <div class="project-mockup"><div><span>Salmi School</span><strong>Learn smarter.</strong><small>Educational mobile app</small></div></div>
+        <div class="project-content">
+          <p>A complete educational mobile application for students, built around clear navigation, practical study tools, and a mobile-first experience.</p>
+          <div class="badges"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Android</span><span>Mobile App</span></div>
         </div>
-        <button type="submit" class="btn btn-primary" data-i18n="formSubmit">Envoyer le message</button>
-        
-        <p id="formStatus" class="form-status" aria-live="polite"></p>
-      </form>
+      </article>
+    </section>
 
-      <a window.location.href="mailto:zakariasaalmi@gmail.com" class="direct-mail" data-i18n="contactCta">Écrivez-moi </a>
-    </div>
-  </div>
-</section>
+    <section class="selected-work section-dark" data-section="PROJECTS">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Selected Work</p>
+        <h2>Websites for real businesses.</h2>
+      </div>
+      <div class="work-grid">
+        <article class="work-card reveal"><p>01</p><h3>Restaurant Website</h3><span>Menus · Reservations · Local SEO</span></article>
+        <article class="work-card reveal"><p>02</p><h3>Barber Website</h3><span>Services · Booking · Gallery</span></article>
+        <article class="work-card reveal"><p>03</p><h3>Business Website</h3><span>Corporate pages · Lead forms</span></article>
+        <article class="work-card reveal"><p>04</p><h3>Portfolio Website</h3><span>Personal brand · Case studies</span></article>
+      </div>
+    </section>
 
-<footer>
-  <div class="container footer-row">
-    <span>© 2026 <span data-i18n-name>Zakaria</span></span>
-    <span data-i18n="footerText">Développeur Web & Mobile </span>
-  </div>
-</footer>
+    <section class="about section-cream" id="about" data-section="ABOUT">
+      <div class="about-layout">
+        <div class="about-title reveal"><p class="eyebrow dark">About me</p><h2>France-based developer with an editorial eye.</h2></div>
+        <div class="about-copy reveal"><p>I'm Zakaria, a freelance web and mobile developer helping restaurants, barber shops, businesses, and creators turn ideas into premium digital experiences.</p><div class="skill-marquee"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>PHP</span><span>WordPress</span><span>Responsive</span><span>Firebase</span><span>UI Design</span></div></div>
+      </div>
+      <div class="timeline reveal"><div><strong>01</strong><span>Discover</span></div><div><strong>02</strong><span>Design</span></div><div><strong>03</strong><span>Develop</span></div><div><strong>04</strong><span>Launch</span></div></div>
+    </section>
 
-<script>
-  const translations = {
-    fr: {
-      navAbout: "À propos", navServices: "Services", navProjects: "Projets", navContact: "Contact",
-      heroEyebrow: "Développeur freelance — web & mobile",
-      heroTitle: "Votre site. Votre application.<br>Dans votre langue.",
-      heroSub: "Je conçois des sites web et des applications mobiles sur mesure, du cahier des charges à la mise en ligne — en français, en arabe, ou dans les deux à la fois.",
-      heroCtaPrimary: "Discutons de votre projet",
-      heroCtaSecondary: "Voir mes réalisations",
-      aboutEyebrow: "À propos",
-      aboutHeading: "Un développeur, quatre langues de travail",
-      aboutBody: "Basé en France, je conçois des sites web et des applications mobiles pour indépendants, commerces et associations. Je travaille aussi bien en français qu'en arabe (darija), en espagnol et en anglais — un vrai atout quand vos clients, vos utilisateurs ou vos équipes parlent plusieurs langues.",
-      skillsEyebrow: "Ce que je fais",
-      skillsHeading: "Des sites web et des applications qui parlent votre langue",
-      skill1Title: "Sites Web",
-      skill1Body: "Sites vitrines, sites e-commerce et applications web sur mesure, pensés pour convertir vos visiteurs en clients.",
-      skill2Title: "Applications Mobiles",
-      skill2Body: "Applications Flutter multiplateformes, pour iOS et Android, d'une idée jusqu'à la mise en ligne sur les stores.",
-      skill3Title: "Interfaces Multilingues",
-      skill3Body: "Sites et applications bilingues ou trilingues, avec bascule complète RTL/LTR pour l'arabe — comme celui-ci.",
-      projectsEyebrow: "Projet phare",
-      projectsHeading: "Salmi School",
-      projectBody: "Une application mobile complète pour lycéens marocains, entièrement reconstruite en Flutter à partir d'un site HTML/JavaScript existant. Calculateur de moyenne et de notes du Bac, suivi d'habitudes, lecteur de Coran, emploi du temps et assistant IA — le tout disponible en arabe, français et anglais, avec bascule RTL/LTR complète et mode sombre.",
-      chip2: "AR · FR · EN", chip3: "RTL ⇄ LTR", chip4: "Mode sombre", chip5: "Assistant IA",
-      contactEyebrow: "Contact",
-      contactHeading: "Un projet en tête ?",
-      contactSub: "Parlez-moi de votre site ou de votre application.",
-      contactCta: "Écrivez-moi directement",
-      formName: "Votre nom",
-      formEmail: "Votre e-mail",
-      formMessage: "Votre message",
-      formSubmit: "Envoyer le message",
-      formNote: "Envoi direct et automatique — je reçois votre message dans ma boîte mail.",
-      formSending: "Envoi en cours...",
-      formSuccess: "Message envoyé avec succès ! Je vous répondrai rapidement.",
-      formError: "Une erreur s'est produite. Réessayez, ou écrivez-moi directement.",
-      footerText: "Développeur Web & Mobile",
-      title: "Zakaria — Développeur Web & Mobile"
-    },
-    ar: {
-      navAbout: "نبذة", navServices: "خدمات", navProjects: "مشاريع", navContact: "تواصل",
-      heroEyebrow: "مطوّر مستقل — مواقع وتطبيقات",
-      heroTitle: "موقعك. تطبيقك.<br>.",
-      heroSub: "أصمم مواقع إلكترونية وتطبيقات الهاتف حسب الطلب، .",
-      heroCtaPrimary: "تواصل معي بخصوص مشروعك",
-      heroCtaSecondary: "شاهد أعمالي",
-      aboutEyebrow: "نبذة عني",
-      aboutHeading: "مطوّر واحد، بأربع لغات عمل",
-      aboutBody: "أعمل من فرنسا في تصميم المواقع الإلكترونية وتطبيقات الجوّال للمستقلين والمحلات والجمعيات. أتقن العربية (الدارجة) والفرنسية والإسبانية والإنجليزية — وهذا يسهّل التواصل عندما يتحدث عملاؤك أو مستخدموك أكثر من لغة.",
-      skillsEyebrow: "ماذا أقدّم",
-      skillsHeading: "مواقع وتطبيقات تتحدث بلغتك",
-      skill1Title: "مواقع إلكترونية",
-      skill1Body: "مواقع تعريفية ومتاجر إلكترونية وتطبيقات ويب مخصصة، مصممة لتحويل الزوار إلى عملاء.",
-      skill2Title: "تطبيقات الجوّال",
-      skill2Body: "تطبيقات Flutter تعمل على iOS وAndroid، من الفكرة وحتى النشر في المتجر.",
-      skill3Title: "واجهات متعددة اللغات",
-      skill3Body: "مواقع وتطبيقات ثنائية أو ثلاثية اللغة، مع دعم كامل للعربية من اليمين إلى اليسار — تمامًا كهذا الموقع.",
-      projectsEyebrow: "مشروع بارز",
-      projectsHeading: "Salmi School",
-      projectBody: "تطبيق جوّال متكامل لتلاميذ الثانوي بالمغرب، أُعيد بناؤه بالكامل بلغة Flutter انطلاقًا من موقع HTML/JavaScript سابق. يضم حاسبة لمعدل ونقط الباكالوريا، متتبع عادات، مشغّل قرآن كريم، جدول حصص، ومساعد ذكاء اصطناعي — كل ذلك بالعربية والفرنسية والإنجليزية، مع دعم كامل لاتجاه الكتابة والوضع الليلي.",
-      chip2: "عربي · فرنسي · إنجليزي", chip3: "يمين ⇄ يسار", chip4: "الوضع الليلي", chip5: "مساعد ذكي",
-      contactEyebrow: "تواصل",
-      contactHeading: "عندك فكرة مشروع؟",
-      contactSub: "حدّثني عن موقعك أو تطبيقك — أرد بسرعة.",
-      contactCta: "راسلني مباشرة",
-      formName: "الاسم",
-      formEmail: "البريد الإلكتروني",
-      formMessage: "الرسالة",
-      formSubmit: "إرسال الرسالة",
-      formNote: "الإرسال مباشر وأوتوماتيكي — كتوصلني الرسالة مباشرة فالإيميل ديالي.",
-      formSending: "جاري الإرسال...",
-      formSuccess: "توصلت رسالتك بنجاح! غادي نرد عليك قريبا.",
-      formError: "وقع مشكل. جرب مرة أخرى، ولا راسلني مباشرة.",
-      footerText: "مطوّر مواقع وتطبيقات ",
-      title: "Zakaria — مطوّر مواقع وتطبيقات"
-    }
-  };
+    <section class="process section-dark" data-section="PROCESS">
+      <div class="section-heading reveal"><p class="eyebrow">Process</p><h2>A clear path from idea to launch.</h2></div>
+      <div class="process-line"><article class="reveal"><span></span><h3>Discover</h3><p>We define goals, audience, content, and functionality.</p></article><article class="reveal"><span></span><h3>Design</h3><p>I shape a premium visual direction and usable interface.</p></article><article class="reveal"><span></span><h3>Develop</h3><p>The design becomes fast, responsive, production-ready code.</p></article><article class="reveal"><span></span><h3>Launch</h3><p>We deploy, test, refine, and prepare your next iteration.</p></article></div>
+    </section>
 
-  const nameByLang = { fr: "Zakaria", ar: "زكرياء" };
-  let currentLang = 'fr';
+    <section class="contact section-cream" id="contact" data-section="CONTACT">
+      <div class="contact-card reveal">
+        <p class="eyebrow dark">Contact</p>
+        <h2>Let's build your next project.</h2>
+        <form action="https://formspree.io/f/meeyvejn" method="POST">
+          <label>Name<input name="name" autocomplete="name" required></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required></label>
+          <label>Message<textarea name="message" rows="5" required></textarea></label>
+          <button class="button button-primary magnetic" type="submit">Send the message</button>
+        </form>
+      </div>
+    </section>
+  </main>
 
-  function setLang(lang){
-    currentLang = lang;
-    const dict = translations[lang];
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.body.classList.toggle('lang-ar', lang === 'ar');
-    document.title = dict.title;
-
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[key] !== undefined) el.innerHTML = dict[key];
-    });
-    document.querySelectorAll('[data-i18n-name]').forEach(el => {
-      el.textContent = nameByLang[lang];
-    });
-
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      const isActive = btn.getAttribute('data-set-lang') === lang;
-      btn.setAttribute('aria-pressed', String(isActive));
-    });
-    document.querySelector('.lang-switch').classList.toggle('is-ar', lang === 'ar');
-  }
-
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => setLang(btn.getAttribute('data-set-lang')));
-  });
-  const contactForm = document.getElementById('contactForm');
-  const formStatus = document.getElementById('formStatus');
-  if (contactForm){
-    contactForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const originalLabel = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = translations[currentLang].formSending;
-      formStatus.textContent = '';
-      formStatus.className = 'form-status';
-
-      const formData = new FormData(contactForm);
-      const name = document.getElementById('cf-name').value.trim();
-      formData.set('_subject', currentLang === 'ar'
-        ? `رسالة جديدة من الموقع الشخصي — ${name}`
-        : `Nouveau message depuis le portfolio — ${name}`);
-
-      fetch(contactForm.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      }).then(response => {
-        if (response.ok){
-          contactForm.reset();
-          formStatus.textContent = translations[currentLang].formSuccess;
-          formStatus.classList.add('is-success');
-        } else {
-          formStatus.textContent = translations[currentLang].formError;
-          formStatus.classList.add('is-error');
-        }
-      }).catch(() => {
-        formStatus.textContent = translations[currentLang].formError;
-        formStatus.classList.add('is-error');
-      }).finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = translations[currentLang].formSubmit;
-      });
-    });
-  }
-
-  
-  
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting){
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  
-</script>
+  <footer class="site-footer"><span>© 2026 Zakaria</span><a href="mailto:zakariasaalmi@gmail.com">zakariasaalmi@gmail.com</a><span>Freelance Web & Mobile Developer · France</span></footer>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
-<!-- modify this form HTML and place wherever you want your form -->
-
-
